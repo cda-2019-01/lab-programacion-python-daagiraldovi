@@ -15,38 +15,35 @@
 ## jjj,18
 ##
 ##
-# Guarda cada linea del archivo como elemento de una lista
-file = open('data.csv', 'r').readlines()
+import csv
+with open('data.csv', 'rt') as f:
+    csv_reader = csv.reader(f, delimiter='\t')
+    tabla = list()
+    for fila in csv_reader:
+        tabla.append(fila)
 
-# Quitamos el ultimo caracter de cada elemento
-file = [row[0:-1] for row in file]
+#print (tabla)
+datos = [str(row[4]).split(',') for row in tabla]
+#print (datos)
 
-# Separa los caracteres por tabulacion
-file = [row.split('\t') for row in file]
+#unir en una sola lista
+datos1 = [data for sublist in datos for data in sublist]
+#print (datos1)
 
-data = []
-i = 0
-for elemt in file:
-	data.append([])
-	for e in elemt:
-		a = e.split(',')
-		if(len(a) == 1):
-			data[i].append(a[0])
-		else:
-			data[i].append(a)
-	i += 1
+#se crea una lista de lista [clave, valor]
+datos2 = [(dato.split(':')) for dato in datos1]
+#print (datos2)
 
-result = {}
+#crear lista de claves
+total_claves = [clave[0:3] for clave in datos1]
+#print (total_claves)
+unico = set(total_claves)
+unico = list(unico)
+unico.sort()
 
-for element in data:
-	for el in element[4]:
-		aux = el.split(':')
-		result[aux[0]] = 0
+#print (unico)
 
-for element in data:
-	for el in element[4]:
-		aux = el.split(':')
-		result[aux[0]] += 1
+salida = [(key,total_claves.count(key)) for key in unico]
 
-for e in result:
-	print(e + ',' + str(result[e]))
+for tupla in salida:
+    print ("{},{}".format(tupla[0],tupla[1]))
