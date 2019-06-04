@@ -1,6 +1,7 @@
 ##
 ## Imprima la suma de la segunda columna.
 ##
+#
 
 # Guarda cada linea del archivo como elemento de una lista
 file = open('data.csv', 'r').readlines()
